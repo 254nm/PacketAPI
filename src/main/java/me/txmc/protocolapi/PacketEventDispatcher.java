@@ -20,7 +20,8 @@ public class PacketEventDispatcher {
         plugin.getServer().getPluginManager().registerEvents(new PlayerJoinListener(plugin, this), plugin);
     }
 
-    public void register(PacketListener listener, Class<? extends Packet<?>>[] listeningFor) {
+    @SafeVarargs
+    public final void register(PacketListener listener, Class<? extends Packet<?>>... listeningFor) {
         if (listeners.containsValue(listener)) return;
         if (ClassProcessor.hasAnnotation(listener)) ClassProcessor.process(listener);
         listeners.put(new HashSet<>(Arrays.asList(listeningFor)), listener);
