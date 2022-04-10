@@ -5,12 +5,16 @@
 [An example can be found here](https://github.com/254nm/PacketAPI/blob/master/Example/src/main/java/me/txmc/protocolapiexample/ProtocolAPIExample.java)
 
 ###Repositories
+```xml
         <repository>
             <id>txmc-repo</id>
             <url>https://repo.txmc.me/releases</url>
         </repository>
+```
+
 
 ###Dependencies
+```xml
         <dependency>
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper-jar</artifactId>
@@ -23,3 +27,4 @@
             <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
+```
