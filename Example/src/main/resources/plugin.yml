@@ -1,0 +1,5 @@
+name: ProtocolAPIExample
+version: '${project.version}'
+main: me.txmc.protocolapiexample.ProtocolAPIExample
+authors: [ 254n_m ]
+description: An example for my 1.1.2. protocol api
