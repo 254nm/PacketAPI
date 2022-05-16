@@ -4,37 +4,34 @@ import me.txmc.protocolapi.reflection.ClassProcessor;
 import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PacketEventDispatcher {
-    private final HashMap<HashSet<Class<? extends Packet<?>>>, PacketListener> listeners;
+    private final LinkedHashMap<PacketListener, HashSet<Class<? extends Packet<?>>>> listeners;
     private final JavaPlugin plugin;
 
     public PacketEventDispatcher(JavaPlugin plugin) {
         this.plugin = plugin;
-        listeners = new HashMap<>();
+        listeners = new LinkedHashMap<>();
         plugin.getServer().getPluginManager().registerEvents(new PlayerJoinListener(plugin, this), plugin);
     }
 
     @SafeVarargs
     public final void register(PacketListener listener, Class<? extends Packet<?>>... listeningFor) {
-        if (listeners.containsValue(listener)) return;
+        if (listeners.containsKey(listener)) return;
         if (ClassProcessor.hasAnnotation(listener)) ClassProcessor.process(listener);
-        listeners.put(new HashSet<>(Arrays.asList(listeningFor)), listener);
+        listeners.put(listener, new HashSet<>(Arrays.asList(listeningFor)));
     }
 
     public void unregister(PacketListener listener) {
-        throw new UnsupportedOperationException("Unregistering listeners is unsupported");
+        listeners.remove(listener);
     }
 
     @SuppressWarnings(value = "unchecked")
     protected void dispatch(PacketEvent event) {
         Class<? extends Packet<?>> clazz = (Class<? extends Packet<?>>) event.getPacket().getClass();
-        List<PacketListener> pl = listeners.keySet().stream().filter(s -> s.contains(clazz) || s.contains(null)).map(listeners::get).collect(Collectors.toList());
+        List<PacketListener> pl = listeners.entrySet().stream().filter(e -> e.getValue().contains(clazz) || e.getValue().contains(null)).map(Map.Entry::getKey).collect(Collectors.toList());
         if (event instanceof PacketEvent.Incoming) {
             pl.forEach(l -> {
                 try {
@@ -52,9 +49,5 @@ public class PacketEventDispatcher {
                 }
             });
         } else throw new IllegalArgumentException("PacketEvent is an abstract class");
-    }
-
-    public JavaPlugin getPlugin() {
-        return plugin;
     }
 }

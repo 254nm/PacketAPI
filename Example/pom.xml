@@ -74,7 +74,7 @@
         <dependency>
             <groupId>me.txmc</groupId>
             <artifactId>protocolapi</artifactId>
-            <version>1.0-SNAPSHOT_1.12.2</version>
+            <version>1.1-SNAPSHOT_1.12.2</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
