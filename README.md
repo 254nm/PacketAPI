@@ -14,7 +14,7 @@
 </repository>
 ```
 
-### Dependencies
+### Dependencies (maven)
 
 ```xml
 <dependency>
@@ -26,7 +26,19 @@
 <dependency>
     <groupId>me.txmc</groupId>
     <artifactId>protocolapi</artifactId>
-    <version>1.0-SNAPSHOT_1.12.2</version>
+    <version>1.2-SNAPSHOT</version>
     <scope>compile</scope>
 </dependency>
+```
+### Dependencies (gradle kts)
+```kotlin
+repositories {
+    mavenLocal()
+    maven { url = uri("https://repo.txmc.me/releases") }
+}
+
+dependencies {
+    implementation("me.txmc:protocolapi:1.2-SNAPSHOT")
+    compileOnly("com.destroystokyo.paper:paper-jar:1.12.2-R0.1-SNAPSHOT")
+}
 ```
