@@ -30,7 +30,7 @@
     <scope>compile</scope>
 </dependency>
 ```
-### Dependencies (gradle kts)
+### Dependencies & Repositories (gradle kts)
 ```kotlin
 repositories {
     mavenLocal()
